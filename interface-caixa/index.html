@@ -1,0 +1,207 @@
+<!doctype html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta
+      name="description"
+      content="Interface de caixa para criação e atualização de pedidos do Pizza Flow."
+    />
+    <title>Pizza Flow | Caixa</title>
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <div class="app-shell">
+      <header class="app-header">
+        <a class="brand" href="#novo-pedido" aria-label="Pizza Flow - início">
+          <span class="brand-mark" aria-hidden="true">PF</span>
+          <span>
+            <strong>Pizza Flow</strong>
+            <small>Caixa</small>
+          </span>
+        </a>
+      </header>
+
+      <main>
+        <nav class="tabs" aria-label="Seções do caixa">
+          <button
+            class="tab-button active"
+            type="button"
+            role="tab"
+            aria-selected="true"
+            aria-controls="novo-pedido"
+            data-tab="novo-pedido"
+          >
+            Novo pedido
+          </button>
+          <button
+            class="tab-button"
+            type="button"
+            role="tab"
+            aria-selected="false"
+            aria-controls="pedidos-enviados"
+            data-tab="pedidos-enviados"
+          >
+            Pedidos enviados
+            <span id="orders-count" class="count-badge">0</span>
+          </button>
+        </nav>
+
+        <section id="novo-pedido" class="tab-panel active" role="tabpanel">
+          <form id="order-form" class="order-form">
+            <div class="form-heading">
+              <div>
+                <p class="step-label">01</p>
+                <h2>Identifique o cliente</h2>
+              </div>
+              <p>Os campos marcados são obrigatórios.</p>
+            </div>
+
+            <label class="field">
+              <span>Nome do cliente</span>
+              <input
+                id="customer-name"
+                name="customerName"
+                type="text"
+                placeholder="Ex.: Marina"
+                autocomplete="name"
+                maxlength="80"
+                required
+              />
+            </label>
+
+            <label class="field">
+              <span>Telefone</span>
+              <input
+                id="customer-phone"
+                name="phone"
+                type="tel"
+                placeholder="Ex.: (11) 99999-9999"
+                autocomplete="tel"
+                maxlength="20"
+                required
+              />
+            </label>
+
+            <fieldset class="full-width">
+              <legend>
+                <span class="step-label">02</span>
+                Escolha a pizza
+              </legend>
+
+              <div class="option-grid pizza-options">
+                <label class="option-card">
+                  <input type="radio" name="pizza" value="Calabresa" required />
+                  <span class="option-emoji" aria-hidden="true">🍕</span>
+                  <strong>Calabresa</strong>
+                  <small>Calabresa, cebola e orégano</small>
+                  <span class="option-price">R$ 45,00</span>
+                </label>
+
+                <label class="option-card">
+                  <input type="radio" name="pizza" value="Margherita" />
+                  <span class="option-emoji" aria-hidden="true">🌿</span>
+                  <strong>Margherita</strong>
+                  <small>Tomate, muçarela e manjericão</small>
+                  <span class="option-price">R$ 42,00</span>
+                </label>
+
+                <label class="option-card">
+                  <input type="radio" name="pizza" value="Frango com catupiry" />
+                  <span class="option-emoji" aria-hidden="true">🐔</span>
+                  <strong>Frango</strong>
+                  <small>Frango desfiado e catupiry</small>
+                  <span class="option-price">R$ 48,00</span>
+                </label>
+
+                <label class="option-card">
+                  <input type="radio" name="pizza" value="Quatro queijos" />
+                  <span class="option-emoji" aria-hidden="true">🧀</span>
+                  <strong>Quatro queijos</strong>
+                  <small>Muçarela, provolone, parmesão e gorgonzola</small>
+                  <span class="option-price">R$ 50,00</span>
+                </label>
+              </div>
+            </fieldset>
+
+            <fieldset class="full-width">
+              <legend>
+                <span class="step-label">03</span>
+                Escolha a bebida
+              </legend>
+
+              <div class="option-grid drink-options">
+                <label class="option-card compact">
+                  <input type="radio" name="beverage" value="Sem bebida" checked />
+                  <strong>Sem bebida</strong>
+                  <span class="option-price">R$ 0,00</span>
+                </label>
+                <label class="option-card compact">
+                  <input type="radio" name="beverage" value="Coca-Cola" />
+                  <strong>Coca-Cola</strong>
+                  <span class="option-price">R$ 8,00</span>
+                </label>
+                <label class="option-card compact">
+                  <input type="radio" name="beverage" value="Guaraná" />
+                  <strong>Guaraná</strong>
+                  <span class="option-price">R$ 7,00</span>
+                </label>
+                <label class="option-card compact">
+                  <input type="radio" name="beverage" value="Água" />
+                  <strong>Água</strong>
+                  <span class="option-price">R$ 5,00</span>
+                </label>
+              </div>
+            </fieldset>
+
+            <div class="form-actions full-width">
+              <p id="form-feedback" class="feedback" role="status" aria-live="polite"></p>
+              <button id="submit-order" class="primary-button" type="submit">
+                Enviar pedido
+                <span aria-hidden="true">→</span>
+              </button>
+            </div>
+          </form>
+        </section>
+
+        <section
+          id="pedidos-enviados"
+          class="tab-panel"
+          role="tabpanel"
+          hidden
+        >
+          <div class="orders-heading">
+            <div>
+              <p class="eyebrow">Histórico local</p>
+              <h2>Pedidos enviados</h2>
+            </div>
+            <p>Pedidos confirmados pela API neste navegador.</p>
+          </div>
+
+          <div id="orders-list" class="orders-list"></div>
+
+          <div id="empty-state" class="empty-state">
+            <span aria-hidden="true">🍽️</span>
+            <h3>Nenhum pedido enviado</h3>
+            <p>Crie o primeiro pedido para vê-lo aparecer aqui.</p>
+            <button class="secondary-button" type="button" data-go-to-create>
+              Criar pedido
+            </button>
+          </div>
+        </section>
+      </main>
+
+      <footer>
+        <span>Pizza Flow</span>
+        <span>Eventos simples, fluxo visível.</span>
+      </footer>
+    </div>
+
+    <div id="toast" class="toast" role="status" aria-live="polite" aria-atomic="true">
+      <span class="toast-icon" aria-hidden="true">✓</span>
+      <span id="toast-message"></span>
+    </div>
+
+    <script src="app.js" defer></script>
+  </body>
+</html>

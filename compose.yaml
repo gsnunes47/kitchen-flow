@@ -1,4 +1,20 @@
 services:
+  postgres:
+    image: postgres:18-alpine
+    environment:
+      POSTGRES_DB: pizza_flow
+      POSTGRES_USER: pizza_flow
+      POSTGRES_PASSWORD: pizza_flow_dev
+    ports:
+      - "5433:5432"
+    volumes:
+      - postgres-data:/var/lib/postgresql
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U pizza_flow -d pizza_flow"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+
   rabbitmq:
     image: rabbitmq:4-management
     ports:
@@ -8,4 +24,5 @@ services:
       - rabbitmq-data:/var/lib/rabbitmq
 
 volumes:
+  postgres-data:
   rabbitmq-data:
