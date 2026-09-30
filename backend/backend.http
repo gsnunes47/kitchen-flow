@@ -4,3 +4,13 @@ GET {{backend_HostAddress}}/
 Accept: application/json
 
 ###
+
+POST {{backend_HostAddress}}/orders
+Content-Type: application/json
+
+{
+  "customerName": "Gus",
+  "pizza": "Calabresa"
+}
+
+###
