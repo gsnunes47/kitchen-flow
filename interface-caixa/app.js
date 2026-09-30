@@ -1,11 +1,13 @@
 const API_BASE_URL = "http://localhost:5196";
-const STORAGE_KEY = "pizza-flow:cashier-orders";
+const STORAGE_KEY = "kitchen-flow:cashier-orders";
+// Mantém os pedidos criados antes do rename disponíveis no navegador.
+const LEGACY_STORAGE_KEY = "pizza-flow:cashier-orders";
 
-const pizzas = [
-  { name: "Calabresa", price: 4500 },
-  { name: "Margherita", price: 4200 },
-  { name: "Frango com catupiry", price: 4800 },
-  { name: "Quatro queijos", price: 5000 },
+const meals = [
+  { name: "Prato executivo", price: 3500 },
+  { name: "Hambúrguer artesanal", price: 3200 },
+  { name: "Massa ao molho", price: 3800 },
+  { name: "Salada completa", price: 2800 },
 ];
 
 const beverages = [
@@ -31,7 +33,14 @@ let toastTimeout;
 
 function loadOrders() {
   try {
-    return JSON.parse(localStorage.getItem(STORAGE_KEY)) ?? [];
+    const storedOrders =
+      localStorage.getItem(STORAGE_KEY) ??
+      localStorage.getItem(LEGACY_STORAGE_KEY);
+
+    return (JSON.parse(storedOrders) ?? []).map((order) => ({
+      ...order,
+      meal: order.meal ?? order.pizza,
+    }));
   } catch {
     return [];
   }
@@ -103,11 +112,11 @@ function formatCurrency(valueInCents) {
 }
 
 function findProduct(name) {
-  return [...pizzas, ...beverages].find((product) => product.name === name);
+  return [...meals, ...beverages].find((product) => product.name === name);
 }
 
-function buildItems(pizza, beverage) {
-  return [pizza, beverage]
+function buildItems(meal, beverage) {
+  return [meal, beverage]
     .map((name) => findProduct(name))
     .filter((product) => product && product.price > 0)
     .map((product) => ({
@@ -118,7 +127,7 @@ function buildItems(pizza, beverage) {
 }
 
 function getOrderItems(order) {
-  return order.items ?? buildItems(order.pizza, order.beverage);
+  return order.items ?? buildItems(order.meal, order.beverage);
 }
 
 function getOrderTotal(order) {
@@ -148,7 +157,7 @@ function renderOrders() {
           <div>
             <h3>${escapeHtml(order.customerName)}</h3>
             <p class="order-meta">
-              <span>${escapeHtml(order.pizza)}</span>
+              <span>${escapeHtml(order.meal)}</span>
               <span>${escapeHtml(order.beverage)}</span>
               <span>${escapeHtml(order.phone ?? "Telefone não informado")}</span>
               <span>${formatDate(order.createdAt)}</span>
@@ -187,8 +196,8 @@ function createEditForm(order) {
         <input name="phone" type="tel" value="${escapeHtml(order.phone ?? "")}" maxlength="20" required />
       </label>
       <label>
-        Pizza
-        <select name="pizza">${optionsMarkup(pizzas, order.pizza)}</select>
+        Prato
+        <select name="meal">${optionsMarkup(meals, order.meal)}</select>
       </label>
       <label>
         Bebida
@@ -221,12 +230,12 @@ orderForm.addEventListener("submit", async (event) => {
   event.preventDefault();
 
   const formData = new FormData(orderForm);
-  const pizza = formData.get("pizza");
+  const meal = formData.get("meal");
   const beverage = formData.get("beverage");
   const request = {
     customerName: formData.get("customerName").trim(),
     phone: formData.get("phone").trim(),
-    items: buildItems(pizza, beverage),
+    items: buildItems(meal, beverage),
   };
 
   setFeedback("");
@@ -252,7 +261,7 @@ orderForm.addEventListener("submit", async (event) => {
     const createdOrder = {
       customerName: request.customerName,
       phone: request.phone,
-      pizza,
+      meal,
       beverage,
       ...responseBody,
       orderId: responseBody?.orderId ?? crypto.randomUUID(),
@@ -357,14 +366,14 @@ ordersList.addEventListener("submit", async (event) => {
   const card = editForm.closest("[data-order-id]");
   const orderId = card.dataset.orderId;
   const formData = new FormData(editForm);
-  const pizza = formData.get("pizza");
+  const meal = formData.get("meal");
   const beverage = formData.get("beverage");
   const editFeedback = editForm.querySelector("[data-edit-feedback]");
   const saveButton = editForm.querySelector("button[type='submit']");
   const request = {
     customerName: formData.get("customerName").trim(),
     phone: formData.get("phone").trim(),
-    items: buildItems(pizza, beverage),
+    items: buildItems(meal, beverage),
   };
 
   saveButton.disabled = true;
@@ -393,7 +402,7 @@ ordersList.addEventListener("submit", async (event) => {
         ? {
             ...order,
             ...request,
-            pizza,
+            meal,
             beverage,
             ...(responseBody ?? {}),
             lastEvent: "OrderUpdated",

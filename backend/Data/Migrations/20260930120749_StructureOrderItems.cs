@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 #nullable disable
 
-namespace backend.Data.Migrations
+namespace KitchenFlow.Data.Migrations
 {
     /// <inheritdoc />
     public partial class StructureOrderItems : Migration
@@ -31,6 +31,7 @@ namespace backend.Data.Migrations
                 nullable: false,
                 defaultValue: "");
 
+            // Converte pedidos gravados pelo formato anterior ao domínio genérico de restaurante.
             migrationBuilder.Sql(
                 """
                 UPDATE orders

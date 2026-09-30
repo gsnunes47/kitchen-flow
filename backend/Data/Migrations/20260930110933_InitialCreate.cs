@@ -4,7 +4,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 #nullable disable
 
-namespace backend.Data.Migrations
+namespace KitchenFlow.Data.Migrations
 {
     /// <inheritdoc />
     public partial class InitialCreate : Migration

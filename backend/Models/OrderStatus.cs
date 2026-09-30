@@ -1,6 +1,6 @@
 using System.Text.Json.Serialization;
 
-namespace PizzaFlow.Models;
+namespace KitchenFlow.Models;
 
 [JsonConverter(typeof(JsonStringEnumConverter))]
 public enum OrderStatus

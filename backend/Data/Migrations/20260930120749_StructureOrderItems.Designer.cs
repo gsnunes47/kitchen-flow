@@ -6,13 +6,13 @@ using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
-using PizzaFlow.Data;
+using KitchenFlow.Data;
 
 #nullable disable
 
-namespace backend.Data.Migrations
+namespace KitchenFlow.Data.Migrations
 {
-    [DbContext(typeof(PizzaFlowDbContext))]
+    [DbContext(typeof(KitchenFlow.Data.DbContext))]
     [Migration("20260930120749_StructureOrderItems")]
     partial class StructureOrderItems
     {
@@ -26,7 +26,7 @@ namespace backend.Data.Migrations
 
             NpgsqlModelBuilderExtensions.UseIdentityByDefaultColumns(modelBuilder);
 
-            modelBuilder.Entity("PizzaFlow.Models.Order", b =>
+            modelBuilder.Entity("KitchenFlow.Models.Order", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()

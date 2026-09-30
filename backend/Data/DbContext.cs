@@ -1,10 +1,10 @@
 using Microsoft.EntityFrameworkCore;
-using PizzaFlow.Models;
+using KitchenFlow.Models;
 
-namespace PizzaFlow.Data;
+namespace KitchenFlow.Data;
 
-public sealed class PizzaFlowDbContext(DbContextOptions<PizzaFlowDbContext> options)
-    : DbContext(options)
+public sealed class DbContext(DbContextOptions<DbContext> options)
+    : Microsoft.EntityFrameworkCore.DbContext(options)
 {
     public DbSet<Order> Orders => Set<Order>();
 

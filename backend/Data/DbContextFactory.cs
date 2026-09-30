@@ -1,12 +1,12 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Design;
 
-namespace PizzaFlow.Data;
+namespace KitchenFlow.Data;
 
-public sealed class PizzaFlowDbContextFactory
-    : IDesignTimeDbContextFactory<PizzaFlowDbContext>
+public sealed class DbContextFactory
+    : IDesignTimeDbContextFactory<DbContext>
 {
-    public PizzaFlowDbContext CreateDbContext(string[] args)
+    public DbContext CreateDbContext(string[] args)
     {
         var environment = Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT")
             ?? "Development";
@@ -22,10 +22,10 @@ public sealed class PizzaFlowDbContextFactory
             ?? throw new InvalidOperationException(
                 "ConnectionStrings:Postgres não foi configurada.");
 
-        var options = new DbContextOptionsBuilder<PizzaFlowDbContext>()
+        var options = new DbContextOptionsBuilder<DbContext>()
             .UseNpgsql(connectionString)
             .Options;
 
-        return new PizzaFlowDbContext(options);
+        return new DbContext(options);
     }
 }

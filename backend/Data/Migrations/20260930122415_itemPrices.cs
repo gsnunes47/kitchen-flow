@@ -2,7 +2,7 @@
 
 #nullable disable
 
-namespace backend.Data.Migrations
+namespace KitchenFlow.Data.Migrations
 {
     /// <inheritdoc />
     public partial class itemPrices : Migration

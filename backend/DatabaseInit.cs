@@ -1,5 +1,5 @@
 using Microsoft.EntityFrameworkCore;
-using PizzaFlow.Data;
+using KitchenFlow.Data;
 
 public static class DatabaseInit
 {
@@ -11,7 +11,7 @@ public static class DatabaseInit
             ?? throw new InvalidOperationException(
                 "ConnectionStrings:Postgres não foi configurada.");
 
-        services.AddDbContext<PizzaFlowDbContext>(options =>
+        services.AddDbContext<KitchenFlow.Data.DbContext>(options =>
             options.UseNpgsql(connectionString));
 
         return services;
@@ -20,7 +20,7 @@ public static class DatabaseInit
     public static async Task ApplyDatabaseMigrationsAsync(this WebApplication app)
     {
         await using var scope = app.Services.CreateAsyncScope();
-        var dbContext = scope.ServiceProvider.GetRequiredService<PizzaFlowDbContext>();
+        var dbContext = scope.ServiceProvider.GetRequiredService<KitchenFlow.Data.DbContext>();
 
         await dbContext.Database.MigrateAsync();
     }

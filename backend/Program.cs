@@ -1,7 +1,7 @@
 using System.Text.Json;
 using Microsoft.EntityFrameworkCore;
-using PizzaFlow.Data;
-using PizzaFlow.Models;
+using KitchenFlow.Data;
+using KitchenFlow.Models;
 using RabbitMQ.Client;
 
 // Puxa todas as configs para a aplicação rodar
@@ -37,7 +37,9 @@ if (app.Environment.IsDevelopment())
 }
 
 //Endpoints
-app.MapGet("/orders", async (PizzaFlowDbContext dbContext, CancellationToken cancellationToken) =>
+
+// Read
+app.MapGet("/orders", async (KitchenFlow.Data.DbContext dbContext, CancellationToken cancellationToken) =>
 {
     var orders = await dbContext.Orders
         .AsNoTracking()
@@ -55,14 +57,15 @@ app.MapGet("/orders", async (PizzaFlowDbContext dbContext, CancellationToken can
     }));
 });
 
+// Create
 app.MapPost("/orders", async (
     CreateOrderRequest request,
-    PizzaFlowDbContext dbContext,
+    KitchenFlow.Data.DbContext dbContext,
     CancellationToken cancellationToken) =>
 {
-
     Console.WriteLine("Criando novo pedido.");
 
+    //Persistencia
     var order = new Order
     {
         CustomerName = request.CustomerName,
@@ -83,6 +86,7 @@ app.MapPost("/orders", async (
         order.Status,
         order.CreatedAt);
 
+    // Mensageria
     var body = JsonSerializer.SerializeToUtf8Bytes(orderCreated);
     var properties = new BasicProperties
     {
@@ -110,6 +114,16 @@ app.MapPost("/orders", async (
 
     return Results.Accepted(value: orderCreated);
 });
+
+app.MapPut("/orders/{id}", async (
+    OrderStatus status,
+    KitchenFlow.Data.DbContext dbContext,
+    CancellationToken cancellationToken
+) =>
+{
+    Console.WriteLine("Atualizando pedido");
+});
+
 
 await app.RunAsync();
 

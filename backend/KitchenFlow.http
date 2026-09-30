@@ -1,0 +1,28 @@
+@KitchenFlow_HostAddress = http://localhost:5196
+
+GET {{KitchenFlow_HostAddress}}/orders
+Accept: application/json
+
+###
+
+POST {{KitchenFlow_HostAddress}}/orders
+Content-Type: application/json
+
+{
+  "customerName": "Gus",
+  "phone": "(11) 99999-9999",
+  "items": [
+    {
+      "name": "Prato executivo",
+      "quantity": 1,
+      "price": 3500
+    },
+    {
+      "name": "Guaraná",
+      "quantity": 1,
+      "price": 700
+    }
+  ]
+}
+
+###

@@ -5,18 +5,18 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta
       name="description"
-      content="Interface de caixa para criação e atualização de pedidos do Pizza Flow."
+      content="Interface de caixa para criação e atualização de pedidos do Kitchen Flow."
     />
-    <title>Pizza Flow | Caixa</title>
+    <title>Kitchen Flow | Caixa</title>
     <link rel="stylesheet" href="styles.css" />
   </head>
   <body>
     <div class="app-shell">
       <header class="app-header">
-        <a class="brand" href="#novo-pedido" aria-label="Pizza Flow - início">
-          <span class="brand-mark" aria-hidden="true">PF</span>
+        <a class="brand" href="#novo-pedido" aria-label="Kitchen Flow - início">
+          <span class="brand-mark" aria-hidden="true">KF</span>
           <span>
-            <strong>Pizza Flow</strong>
+            <strong>Kitchen Flow</strong>
             <small>Caixa</small>
           </span>
         </a>
@@ -86,40 +86,40 @@
             <fieldset class="full-width">
               <legend>
                 <span class="step-label">02</span>
-                Escolha a pizza
+                Escolha o prato
               </legend>
 
-              <div class="option-grid pizza-options">
+              <div class="option-grid meal-options">
                 <label class="option-card">
-                  <input type="radio" name="pizza" value="Calabresa" required />
-                  <span class="option-emoji" aria-hidden="true">🍕</span>
-                  <strong>Calabresa</strong>
-                  <small>Calabresa, cebola e orégano</small>
-                  <span class="option-price">R$ 45,00</span>
+                  <input type="radio" name="meal" value="Prato executivo" required />
+                  <span class="option-emoji" aria-hidden="true">🍛</span>
+                  <strong>Prato executivo</strong>
+                  <small>Arroz, feijão, proteína e acompanhamento</small>
+                  <span class="option-price">R$ 35,00</span>
                 </label>
 
                 <label class="option-card">
-                  <input type="radio" name="pizza" value="Margherita" />
-                  <span class="option-emoji" aria-hidden="true">🌿</span>
-                  <strong>Margherita</strong>
-                  <small>Tomate, muçarela e manjericão</small>
-                  <span class="option-price">R$ 42,00</span>
+                  <input type="radio" name="meal" value="Hambúrguer artesanal" />
+                  <span class="option-emoji" aria-hidden="true">🍔</span>
+                  <strong>Hambúrguer artesanal</strong>
+                  <small>Pão, carne, queijo e salada</small>
+                  <span class="option-price">R$ 32,00</span>
                 </label>
 
                 <label class="option-card">
-                  <input type="radio" name="pizza" value="Frango com catupiry" />
-                  <span class="option-emoji" aria-hidden="true">🐔</span>
-                  <strong>Frango</strong>
-                  <small>Frango desfiado e catupiry</small>
-                  <span class="option-price">R$ 48,00</span>
+                  <input type="radio" name="meal" value="Massa ao molho" />
+                  <span class="option-emoji" aria-hidden="true">🍝</span>
+                  <strong>Massa ao molho</strong>
+                  <small>Massa fresca com molho da casa</small>
+                  <span class="option-price">R$ 38,00</span>
                 </label>
 
                 <label class="option-card">
-                  <input type="radio" name="pizza" value="Quatro queijos" />
-                  <span class="option-emoji" aria-hidden="true">🧀</span>
-                  <strong>Quatro queijos</strong>
-                  <small>Muçarela, provolone, parmesão e gorgonzola</small>
-                  <span class="option-price">R$ 50,00</span>
+                  <input type="radio" name="meal" value="Salada completa" />
+                  <span class="option-emoji" aria-hidden="true">🥗</span>
+                  <strong>Salada completa</strong>
+                  <small>Folhas, legumes, grãos e molho da casa</small>
+                  <span class="option-price">R$ 28,00</span>
                 </label>
               </div>
             </fieldset>
@@ -192,7 +192,7 @@
       </main>
 
       <footer>
-        <span>Pizza Flow</span>
+        <span>Kitchen Flow</span>
         <span>Eventos simples, fluxo visível.</span>
       </footer>
     </div>

@@ -1,4 +1,4 @@
-namespace PizzaFlow.Models;
+namespace KitchenFlow.Models;
 
 public sealed record OrderItem(
     string Name,

@@ -5,14 +5,14 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
-using PizzaFlow.Data;
+using KitchenFlow.Data;
 
 #nullable disable
 
-namespace backend.Data.Migrations
+namespace KitchenFlow.Data.Migrations
 {
-    [DbContext(typeof(PizzaFlowDbContext))]
-    partial class PizzaFlowDbContextModelSnapshot : ModelSnapshot
+    [DbContext(typeof(KitchenFlow.Data.DbContext))]
+    partial class DbContextModelSnapshot : ModelSnapshot
     {
         protected override void BuildModel(ModelBuilder modelBuilder)
         {
@@ -23,7 +23,7 @@ namespace backend.Data.Migrations
 
             NpgsqlModelBuilderExtensions.UseIdentityByDefaultColumns(modelBuilder);
 
-            modelBuilder.Entity("PizzaFlow.Models.Order", b =>
+            modelBuilder.Entity("KitchenFlow.Models.Order", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()

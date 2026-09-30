@@ -1,7 +1,7 @@
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Text.Json;
 
-namespace PizzaFlow.Models;
+namespace KitchenFlow.Models;
 
 public sealed class Order
 {
