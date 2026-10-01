@@ -175,7 +175,7 @@ function renderOrders() {
               data-delivery-order
               ${order.lastEvent === "OrderOutToDelivery" ? "disabled" : ""}
             >
-              ${order.lastEvent === "OrderOutToDelivery" ? "Em entrega" : "Saiu pra entregar"}
+              ${order.lastEvent === "OrderOutToDelivery" ? "Em entrega" : "Saiu pra entrega"}
             </button>
           </div>
         </article>
@@ -187,14 +187,6 @@ function renderOrders() {
 function createEditForm(order) {
   return `
     <form class="edit-form" data-edit-form>
-      <label>
-        Cliente
-        <input name="customerName" value="${escapeHtml(order.customerName)}" maxlength="80" required />
-      </label>
-      <label>
-        Telefone
-        <input name="phone" type="tel" value="${escapeHtml(order.phone ?? "")}" maxlength="20" required />
-      </label>
       <label>
         Prato
         <select name="meal">${optionsMarkup(meals, order.meal)}</select>
@@ -304,9 +296,12 @@ ordersList.addEventListener("click", async (event) => {
     deliveryButton.textContent = "Enviando...";
 
     try {
-      const response = await fetch(`${API_BASE_URL}/orders/delivery/${orderId}`, {
-        method: "POST",
-      });
+      const response = await fetch(
+        `${API_BASE_URL}/orders/delivery/${orderId}`,
+        {
+          method: "POST",
+        },
+      );
 
       const responseBody = await parseResponse(response);
 
@@ -334,7 +329,7 @@ ordersList.addEventListener("click", async (event) => {
       showToast("Pedido saiu para entrega");
     } catch (error) {
       deliveryButton.disabled = false;
-      deliveryButton.textContent = "Saiu pra entregar";
+      deliveryButton.textContent = "Saiu pra entrega";
       showToast(`Não foi possível enviar: ${error.message}`, "error");
     }
 
@@ -371,8 +366,6 @@ ordersList.addEventListener("submit", async (event) => {
   const editFeedback = editForm.querySelector("[data-edit-feedback]");
   const saveButton = editForm.querySelector("button[type='submit']");
   const request = {
-    customerName: formData.get("customerName").trim(),
-    phone: formData.get("phone").trim(),
     items: buildItems(meal, beverage),
   };
 

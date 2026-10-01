@@ -116,18 +116,51 @@ app.MapPost("/orders", async (
 });
 
 app.MapPut("/orders/{id}", async (
-    OrderStatus status,
+    Guid id,
+    OrderPayload request,
     KitchenFlow.Data.DbContext dbContext,
     CancellationToken cancellationToken
 ) =>
 {
     Console.WriteLine("Atualizando pedido");
-});
 
+    var order = await dbContext.Orders.FindAsync([id], cancellationToken);
+
+    if (order is null)
+    {
+        return Results.NotFound();
+    }
+
+    // Pattern Matching
+    if (request.status is OrderStatus status)
+    {
+        order.Status = status;
+    }
+
+    if (request.items != null)
+    {
+        order.Items = JsonSerializer.SerializeToDocument(
+            request.items,
+            JsonSerializerOptions.Web);
+    }
+
+    await dbContext.SaveChangesAsync(cancellationToken);
+
+    return Results.Ok(new
+    {
+        order.Id,
+        order.CustomerName,
+        order.Phone,
+        order.Items,
+        Status = order.Status.ToString(),
+        order.CreatedAt,
+        order.TotalPrice
+    });
+});
 
 await app.RunAsync();
 
-// "Payloads" - Como se fossem classes
+// Payloads
 record CreateOrderRequest (
     string CustomerName,
     string Phone,
@@ -141,4 +174,9 @@ record OrderCreated (
     IReadOnlyList<OrderItem> Items,
     OrderStatus Status,
     DateTimeOffset CreatedAt
+);
+
+record OrderPayload (
+    OrderStatus? status,
+    IReadOnlyList<OrderItem>? items
 );
