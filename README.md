@@ -4,7 +4,7 @@ Sistema para integrar atendimento, cozinha e comunicação com o cliente em rest
 
 O Kitchen Flow conecta o pedido recebido no balcão ou por telefone ao trabalho da cozinha e às notificações do cliente. O atendente registra ou altera um pedido no caixa; a cozinha acompanha essas mudanças no seu painel e atualiza o andamento do preparo; o cliente recebe confirmações e atualizações pelo bot do Telegram.
 
-> **Em desenvolvimento:** o cadastro de pedidos pela interface de caixa, a persistência no PostgreSQL e a publicação de `OrderCreated` no RabbitMQ já estão implementados. O painel da cozinha, os consumidores de eventos e o bot do Telegram fazem parte da arquitetura planejada.
+> **Em desenvolvimento:** o cadastro de pedidos, a persistência no PostgreSQL, a publicação de `OrderCreated` e a carga inicial do painel da cozinha já estão implementados. A entrada de pedidos no painel pela mensageria, os consumers e o bot do Telegram fazem parte das próximas etapas.
 
 ## Da entrada do pedido à entrega
 
@@ -97,6 +97,14 @@ python3 -m http.server 5500 --directory interface-caixa
 
 Acesse `http://localhost:5500` para registrar um pedido. No fluxo atual, a API salva os dados no PostgreSQL e publica `OrderCreated` no RabbitMQ.
 
+Sirva o painel da cozinha em outra porta:
+
+```bash
+python3 -m http.server 5501 --directory interface-cozinha
+```
+
+Acesse `http://localhost:5501`. O painel carrega os pedidos em preparo pela API e permite finalizá-los.
+
 ## Migrations
 
 As migrations são aplicadas automaticamente na inicialização da API. Para os comandos manuais, é necessário ter a ferramenta `dotnet-ef` compatível com a versão do Entity Framework Core usada no projeto.
@@ -121,7 +129,7 @@ dotnet ef migrations add NomeDaMigration \
 - [x] Persistência com Entity Framework Core e PostgreSQL
 - [x] Publicação do evento `OrderCreated` no RabbitMQ
 - [ ] Exchanges, filas e consumidores para distribuir os eventos
-- [ ] Painel da cozinha com atualização dos pedidos
+- [x] Painel da cozinha com carga inicial e finalização dos pedidos
 - [ ] Controle de pedidos aguardando e limite de pedidos em preparo
 - [ ] Alteração e cancelamento de pedidos
 - [ ] Atualização das etapas de preparo, despacho e conclusão
