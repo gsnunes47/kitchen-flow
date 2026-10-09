@@ -18,4 +18,8 @@
     <PackageReference Include="RabbitMQ.Client" Version="7.2.2" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Compile Remove="worker/**/*.cs" />
+  </ItemGroup>
+
 </Project>

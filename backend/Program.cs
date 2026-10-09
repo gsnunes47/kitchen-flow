@@ -22,7 +22,9 @@ builder.Services.AddCors(options =>
 //Iniciando os serviços e elementos do MQ
 var rabbitMq = await RabbitMqInit.CreateAsync(builder.Configuration);
 
-var queueName = "order_created";
+var queueName = builder.Configuration["RabbitMq:QueueName"]
+    ?? throw new InvalidOperationException(
+        "RabbitMq:QueueName não foi configurado.");
 await rabbitMq.DeclareQueueAsync(queueName);
 
 // Monta a aplicação

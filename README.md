@@ -105,6 +105,14 @@ python3 -m http.server 5501 --directory interface-cozinha
 
 Acesse `http://localhost:5501`. O painel carrega os pedidos em preparo pela API e permite finalizá-los.
 
+Para executar o consumer em um processo separado da API:
+
+```bash
+dotnet run --project backend/worker/Worker.csproj
+```
+
+O worker consome a fila `painel_cozinha`, imprime cada evento no terminal e confirma a mensagem com ACK após o processamento.
+
 ## Migrations
 
 As migrations são aplicadas automaticamente na inicialização da API. Para os comandos manuais, é necessário ter a ferramenta `dotnet-ef` compatível com a versão do Entity Framework Core usada no projeto.
